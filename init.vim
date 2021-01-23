@@ -16,7 +16,7 @@ Plug 'godlygeek/tabular'
 Plug 'honza/vim-snippets'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+#Plug 'garbas/vim-snipmate'
 "Plug 'ervandew/supertab'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -190,8 +190,8 @@ let python_highlight_all =1
 "----------------------------------------------
 " Plugin: 'garbas/vim-snipmate'
 "----------------------------------------------
-imap <C-J> <Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
+"imap <C-J> <Plug>snipMateNextOrTrigger
+"smap <C-J> <Plug>snipMateNextOrTrigger
 
 "----------------------------------------------
 " Plugin: 'Shougo/neosnippet.vim'
@@ -361,6 +361,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " Enable autocomplete of unimported packages
 let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog = '/usr/local/bin/python3'
 "let g:python3_host_skip_check = 1
 "let g:deoplete#sources#go#gocode_binary = $GOPATH.'bin/gocode'
 "let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
