@@ -35,8 +35,11 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'sbdchd/neoformat'
 Plug 'tmhedberg/SimpylFold'
-Plug 'preservim/nerdcommenter'
 Plug 'sebdah/vim-delve'
+Plug 'Yggdroot/indentLine'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-commentary'
+Plug 'easymotion/vim-easymotion'
 
 Plug 'dense-analysis/ale'
 Plug 'Shougo/neosnippet.vim'
