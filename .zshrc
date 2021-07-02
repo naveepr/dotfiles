@@ -108,9 +108,9 @@ source $ZSH/oh-my-zsh.sh
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
- compinit -i
+  compinit -i
 else
- compinit -C -i
+  compinit -C -i
 fi
 zmodload -i zsh/complist
 # Save history so we get auto suggestions
@@ -127,13 +127,14 @@ setopt hist_reduce_blanks # remove superfluous blanks from history items
 setopt inc_append_history # save history entries as soon as they are entered
 setopt share_history # share history between different instances
 setopt correct_all # autocorrect commands
+#unsetopt correct_all
 setopt interactive_comments # allow comments in interactive shells
 # Improve autocompletion style
 zstyle ':completion:*' menu select # select completions with arrow keys
 zstyle ':completion:*' group-name '' # group results by category
 zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
-  
-#POWELEVEL9K
+
+# Powerlevel9K
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
 # Add a space in the first prompt
@@ -149,8 +150,10 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
 
 # User specific aliases and functions
-DISABLE_AUTO_TITLE=true
-export CSCOPE_EDITOR=vim
-export EDITOR=~/nvim-osx64/bin/nvim
-export VISUAL=~/nvim-osx64/bin/nvim
+DISABLE_AUTO_TITLE="true"
+#ENABLE_CORRECTION="false"
+
+export CSCOPE_EDITOR=nvim
+export EDITOR=nvim
+export VISUAL=nvim
 export MY_VIMRC=~/.config/nvim/init.vim
