@@ -73,6 +73,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 plugins=(git
         zsh-autosuggestions
         fast-syntax-highlighting
+        history-substring-search
         )
 
 source $ZSH/oh-my-zsh.sh
@@ -152,3 +153,4 @@ DISABLE_AUTO_TITLE=true
 export CSCOPE_EDITOR=vim
 export EDITOR=~/nvim-osx64/bin/nvim
 export VISUAL=~/nvim-osx64/bin/nvim
+export MY_VIMRC=~/.config/nvim/init.vim
