@@ -157,3 +157,27 @@ export CSCOPE_EDITOR=nvim
 export EDITOR=nvim
 export VISUAL=nvim
 export MY_VIMRC=~/.config/nvim/init.vim
+
+# User specific aliases and functions
+attach_tmux()
+{
+    #find a detached screen session and attaches to it
+    #if no detached screen session is found , creates a new one
+    tmux_count=`tmux ls | wc -l`
+    if [ $tmux_count -eq 0 ]; then
+        #create a new screen session
+        tmux new-session -s `hostname`
+        return
+    fi
+
+#   tmux_name=`tmux ls | head -1 | cut -f1 -d:`
+    tmux_name=$1
+    echo "tmux name", $tmux_name
+    tmux a -d -t $tmux_name
+}
+
+create_cscope_files()
+{
+    find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.def" |  sed '/^\.\/devfs*/d' > cscope.files
+    cscope -uR
+}
