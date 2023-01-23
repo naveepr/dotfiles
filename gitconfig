@@ -1,0 +1,7 @@
+[user]
+        name = Naveen Ravikumar
+        email = naveepr@gmail.com
+[format]
+        pretty = oneline
+[color]
+        ui = auto
