@@ -1,8 +1,12 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Load multiple SSH keys
+zstyle :omz:plugins:ssh-agent identities id_rsa id_rsa-bitbucket
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/ravikumar/.oh-my-zsh"
+export PATH="$HOME/neovim/bin:$PATH"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -77,8 +81,7 @@ plugins=(git
         history-substring-search
         )
 
-zstyle :omz:plugins:ssh-agent identities id_rsa id_rsa2 id_github
-
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -137,6 +140,27 @@ zstyle ':completion:*' menu select # select completions with arrow keys
 zstyle ':completion:*' group-name '' # group results by category
 zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
 
+# Highlight the current autocomplete option
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Better SSH/Rsync/SCP Autocomplete
+zstyle ':completion:*:(scp|rsync):*' tag-order ' hosts:-ipaddr:ip\ address hosts:-host:host files'
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+# Allow for autocomplete to be case insensitive
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
+  '+l:|?=** r:|?=**'
+  
+# Enable autocompletions
+autoload -Uz compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
+zmodload -i zsh/complist
+
 # Powerlevel9K
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
@@ -161,6 +185,17 @@ export EDITOR=nvim
 export VISUAL=nvim
 export MY_VIMRC=~/.config/nvim/init.vim
 
+## Requires GNU awk; on OSX you can install using brew (brew install gawk)
+# Path to your certificate file
+CERT=~/.ssh/id_rsa-cert.pub
+expires=$(date -u --date="$(ssh-keygen -L -f "${CERT}" | grep Valid | awk '{ print $5}')" "+%s")
+today=$(date -u "+%s")
+if [[ $expires < $today ]]; then
+        echo -e "\033[91m###"
+        echo -e "### SSH certificate expired: ${CERT}"
+        echo -e "###\033[0m"
+fi
+
 # User specific aliases and functions
 attach_tmux()
 {
@@ -181,6 +216,20 @@ attach_tmux()
 
 create_cscope_files()
 {
-    find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.def" |  sed '/^\.\/devfs*/d' > cscope.files
-    cscope -uR
+   rm -f cscope.files
+   rm -f tags
+   rm -f cscope.out
+   find . -type d \( -path "./out" -o -path "./build" -o -path "./.ccls-cache" \) -prune -o \
+        -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.def" -o -name "Makefile" -o -name "CMakeLists.txt" |  \
+        sed '/^\.\/devfs*/d' |  \
+        sed '/^\.\/build/d' |  \
+        sed '/^\.\/\.ccls-cache/d' |  \
+        sed '/^\.\/out/d'  \
+        > cscope.files
+   cscope -b
+   ctags -L cscope.files
+   rm -f cscope.files
 }
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
