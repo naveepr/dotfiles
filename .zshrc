@@ -242,3 +242,5 @@ create_cscope_files()
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #export TZ=$(realpath /etc/localtime | sed 's/\/usr\/share\/zoneinfo\///g'
+#alias itasca-devel='docker exec -ti itasca-devel bash -l'
+alias v='nvim'
