@@ -4,7 +4,7 @@ SHELL := /bin/bash
 .PHONY: all
 all: install
 
-SYMLINK = cd $(HOME); ln -si $(notdir $(CURDIR))/$(1) .$(notdir $(1)) || true
+SYMLINK = cd $(HOME); ln -si $(basename $(CURDIR))/$(1) .$(notdir $(1)) || true
 
 BASHRC_D := bashrc.d
 BASH_PROFILE := bash_profile
