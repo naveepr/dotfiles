@@ -192,6 +192,11 @@ export EDITOR=nvim
 export VISUAL=nvim
 export MY_VIMRC=~/.config/nvim/init.vim
 
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
+
 ## Requires GNU awk; on OSX you can install using brew (brew install gawk)
 # Path to your certificate file
 CERT=~/.ssh/id_rsa-cert.pub
