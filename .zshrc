@@ -12,9 +12,9 @@ export PATH="$HOME/neovim/bin:$PATH"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="robbyrussell"
+# ZSH_THEME="agnoster"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -240,11 +240,15 @@ create_cscope_files()
         > cscope.files
    cscope -b
    ctags -L cscope.files
-   rm -f cscope.files
+   # rm -f cscope.files
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  eval "$(oh-my-posh init zsh --config ~/.poshthemes/gruvbox.omp.json)"
+fi
 
 #export TZ=$(realpath /etc/localtime | sed 's/\/usr\/share\/zoneinfo\///g'
 #alias itasca-devel='docker exec -ti itasca-devel bash -l'
